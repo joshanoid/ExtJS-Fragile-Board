@@ -1,64 +1,30 @@
 Ext.define('Fragile.controller.Login', {
     extend: 'Ext.app.Controller',
-    requires: [],
+    requires: ['Ext.util.History'],
     views: ['LoginForm'],
     
     init: function(application) {
         this.control({
             "loginform": {
-                login: this.onLogin
+                login: this.loginHandler
             }
         });
     },
 
-    onLogin: function(loginDialog, loginForm, loginCredentials) {
-    	console.log(loginCredentials);
-
-    	var me = this;
-
-    	// authenticate
-    	Ext.Ajax.request({
-    		url: 'resources/sampledata/cred.json',
-    		params: {
-    			username: loginCredentials.username,
-    			password: loginCredentials.password
-    		},
-    		success: function(response) {
-    			
-    			var data = Ext.decode(response.responseText);
-    			
-    			if (data.firstName) {
-
-    				// instantiate user info in global scope for easy referencing
-    				LoginAppDemo.User = Ext.create("LoginAppDemo.user.Profile", {
-    					firstName: data.firstName,
-    					lastName: data.lastName,
-    					roles: data.roles
-    				});
-
-    				// destroy login dialog
-    				loginDialog.destroy();
-
-
-    				Ext.Msg.alert("Login Successful",
-    							  Ext.String.format("Welcome {0} {1}",
-    							  					LoginAppDemo.User.getFirstName(),
-    							  					LoginAppDemo.User.getLastName())
-    				);
-
-    				// load main UI
-    				Ext.create("LoginAppDemo.view.Viewport");
-
-
-    			} else {
-    				Ext.Msg.alert("Invalid credentials","You entered invalid credentials.", function() {
-    					loginForm.getForm().reset();
-    				})
-    			}
-    		}
-    	});
-
-
+    loginHandler: function(loginDialog, loginForm) {
+    	if (loginForm.isValid()) {
+            loginForm.submit({
+                success: function(form, action) {
+                   // Ext.Msg.alert('Success', action.result.msg);
+                   Ext.util.History.add('main');
+                   loginDialog.destroy();
+                   
+                },
+                failure: function(form, action) {
+                    Ext.Msg.alert('Failed', action.result.msg);
+                }
+            });
+        }
     }
 });
 

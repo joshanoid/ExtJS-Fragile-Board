@@ -4,10 +4,21 @@ Ext.define('Fragile.view.Viewport', {
     requires: [
         'Fragile.view.FragileHeader',
         'Fragile.view.FragileFooter',
-        'Fragile.view.LoginForm'
+        'Fragile.view.LoginForm',
+        'Ext.grid.*',
     ],
     beforeRender: function(){
-    	Ext.widget( user ? "Fragile.view.Blah" : "loginform");
+        if(user){
+            Ext.require('Fragile.view.Projects', function(){
+                var contentpanel = Ext.getCmp("content_panel");
+                contentpanel.removeAll();
+                contentpanel.add({
+                    xtype : "fragileprojects"
+                });
+            });
+        }else{
+            Ext.widget("loginform");
+        }
     },
     initComponent: function() {
         var me = this;
@@ -25,10 +36,20 @@ Ext.define('Fragile.view.Viewport', {
 	                height: 80
 	            }
             ],
-            layout: {
-                // type: 'hbox',
-                // align: 'stretch'
-            }
+            items: [
+                {
+                    region : "center",
+                    id : "content_panel",
+                    xtype : "panel",
+                    layout : "fit",
+                    defaults : {
+                        margin : 5,
+                        padding : 5
+                    },
+                    border : false
+                }
+            ]
+    
         }
                 
         me.callParent(arguments);

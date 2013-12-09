@@ -1,4 +1,7 @@
-var user = 0;
+Ext.Loader.setConfig({
+    disableCaching: false,
+    enabled: true
+});
 
 Ext.application({
     requires: ['Ext.container.Viewport'],
