@@ -9,9 +9,28 @@ Ext.application({
     autoCreateViewport: true,
     appFolder: 'js/fragile',
     controllers: [
-        user ? "Main" : "Login"      
+        "Login", "Project", "Board"      
     ],
     views: [
         
-    ]
+    ],
+    launch: function(){
+        var me = this;
+
+        if(Fragile.app.loggedIn){
+            Ext.Loader.injectScriptElement('https://raw.github.com/mtrpcic/pathjs/master/path.min.js', function() {
+                Path.map("#/projects").to(function() {
+                    me.getController('Project').index();
+                });
+                Path.map("#/projects/:id").to(function() {
+                    me.getController('Board').index(this.params["id"]);
+                });
+     
+                Path.root('#/projects');
+                Path.listen();
+            }, null, this);
+        }else{
+            Ext.widget("loginform");
+        }
+    }
 });

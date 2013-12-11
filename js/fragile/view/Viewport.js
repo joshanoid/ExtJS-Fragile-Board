@@ -1,25 +1,11 @@
 Ext.define('Fragile.view.Viewport', {
     extend: 'Ext.Viewport',    
-    layout: 'fit',
+    layout: 'card',
     requires: [
         'Fragile.view.FragileHeader',
         'Fragile.view.FragileFooter',
-        'Fragile.view.LoginForm',
-        'Ext.grid.*',
+        'Fragile.view.LoginForm'
     ],
-    beforeRender: function(){
-        if(user){
-            Ext.require('Fragile.view.Projects', function(){
-                var contentpanel = Ext.getCmp("content_panel");
-                contentpanel.removeAll();
-                contentpanel.add({
-                    xtype : "fragileprojects"
-                });
-            });
-        }else{
-            Ext.widget("loginform");
-        }
-    },
     initComponent: function() {
         var me = this;
         
@@ -39,7 +25,7 @@ Ext.define('Fragile.view.Viewport', {
             items: [
                 {
                     region : "center",
-                    id : "content_panel",
+                    id : "content-panel",
                     xtype : "panel",
                     layout : "fit",
                     defaults : {

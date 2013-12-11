@@ -30,7 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="js/extjs/resources/css/ext-all.css" />
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
 	<script type="text/javascript">
-		var user = <?php echo empty($_SESSION['user']) ? 'false' : 'true' ?>;
+		if(typeof Fragile === 'undefined') Fragile = {app: {loggedIn: <?php echo empty($_SESSION['user']) ? 'false' : 'true' ?>}}; else Fragile.app.loggedIn = <?php echo empty($_SESSION['user']) ? 'false' : 'true' ?>;
 	</script>
     <script type="text/javascript" src="js/extjs/ext-dev.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>

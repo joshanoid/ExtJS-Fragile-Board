@@ -1,5 +1,5 @@
 Ext.define('Fragile.view.FragileHeader', {
-    extend: 'Ext.Component',
+    extend: 'Ext.container.Container',
     alias: 'widget.fragileheader',
     dock: 'top',
     baseCls: 'fragile-header',
