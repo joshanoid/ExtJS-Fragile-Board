@@ -14,7 +14,7 @@ Ext.define("Fragile.view.LoginForm", {
         xtype: 'form',
         bodyPadding: 5,
         layout: 'anchor',
-        url: 'login',
+        url: 'ajax/login',
         defaults: {
             xtype: 'textfield',
             anchor: '100%'

@@ -12,13 +12,13 @@ Ext.define('Fragile.controller.Login', {
     },
 
     loginHandler: function(loginDialog, loginForm) {
-    	if (loginForm.isValid()) {
+    	var me = this;
+
+        if (loginForm.isValid()) {
             loginForm.submit({
                 success: function(form, action) {
-                   // Ext.Msg.alert('Success', action.result.msg);
-                   Ext.util.History.add('main');
                    loginDialog.destroy();
-                   
+                   me.getController('Project').index();
                 },
                 failure: function(form, action) {
                     Ext.Msg.alert('Failed', action.result.msg);
