@@ -17,8 +17,17 @@ class ajax extends CI_Controller {
 		$logged_in = $this->user_model->login($uname, $pass);
 
 		echo json_encode(array(
-			'success' 	=> $logged_in,
-			'msg'		=> $logged_in ? "" : "Invalid username and/or password"
+			'success' 	=> $logged_in !== FALSE,
+			'msg'		=> $logged_in !== FALSE ? "" : "Invalid username and/or password",
+			'user'		=> $logged_in
+		));
+	}
+
+	public function logout(){
+		$this->session->unset_userdata('user');	
+
+		echo json_encode(array(
+			'success' 	=> true
 		));
 	}
 

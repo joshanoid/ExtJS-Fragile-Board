@@ -5,8 +5,16 @@ Ext.define('Fragile.controller.Project', {
 	stores : [ "ProjectStore" ],
     refs: [
         {
+            ref: 'contentPanel',
+            selector: 'contentPanel'
+        },
+        {
             ref : 'projectsgrid',
             selector: 'fragileprojects'
+        },
+        {
+            ref: 'fheader',
+            selector: 'fragileheader'
         }
     ],
 
@@ -74,10 +82,20 @@ Ext.define('Fragile.controller.Project', {
     },
 
     index: function(){
-        var contentpanel = Ext.getCmp("content-panel");
-        contentpanel.removeAll();
-        contentpanel.add({
-        	xtype: "fragileprojects"
-        });
+        var contentPanel = this.getContentPanel();
+        contentPanel.removeAll(true);
+        contentPanel.add( new Fragile.view.Projects );
+        
+        if(Fragile.app.loggedIn){
+            this.getFheader().add(Ext.create("Ext.Button", {
+                text: 'Hi <strong>'+Fragile.app.loggedIn.username+'</strong>, you can logout here!',
+                renderTo: this.dom,
+                id: 'fragile-logout',
+                style: {
+                    float: 'right',
+                    'margin-top': '10px'
+                }
+            }));
+        }
     }
 });

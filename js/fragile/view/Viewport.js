@@ -2,6 +2,8 @@ Ext.define('Fragile.view.Viewport', {
     extend: 'Ext.Viewport',    
     layout: 'card',
     requires: [
+        'Ext.layout.container.Card',
+        'Fragile.view.ContentPanel',
         'Fragile.view.FragileHeader',
         'Fragile.view.FragileFooter',
         'Fragile.view.LoginForm'
@@ -25,19 +27,12 @@ Ext.define('Fragile.view.Viewport', {
             items: [
                 {
                     region : "center",
-                    id : "content-panel",
-                    xtype : "panel",
-                    layout : "fit",
-                    defaults : {
-                        margin : 5,
-                        padding : 5
-                    },
-                    border : false
+                    xtype : "contentPanel"
                 }
             ]
     
         }
                 
-        me.callParent(arguments);
+        me.callParent();
     } 
 });

@@ -3,11 +3,11 @@ Ext.define('Fragile.view.FragileHeader', {
     alias: 'widget.fragileheader',
     dock: 'top',
     baseCls: 'fragile-header',
+    html: 'FRAgile Board',
+    layout: {
+        type: 'anchor'
+    },
     initComponent: function() {
-        Ext.applyIf(this, {
-            html: 'FRAgile Board'
-        });
-                
         this.callParent(arguments);
     }
 });

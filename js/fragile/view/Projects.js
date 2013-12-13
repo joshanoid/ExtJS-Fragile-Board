@@ -22,6 +22,6 @@ Ext.define('Fragile.view.Projects', {
             {header: 'Project name',  dataIndex: 'name',  flex: 1}
         ];
 
-        this.callParent(arguments);
+        this.callParent();
     }
 });

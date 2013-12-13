@@ -6,6 +6,7 @@ Ext.Loader.setConfig({
 Ext.application({
     requires: ['Ext.container.Viewport'],
     name: 'Fragile',
+    appProperty: 'Fragile',
     autoCreateViewport: true,
     appFolder: 'js/fragile',
     controllers: [

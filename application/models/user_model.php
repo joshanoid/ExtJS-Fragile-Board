@@ -16,8 +16,16 @@ class user_model extends CI_Model {
 		$res = $qry->row_array();
 
 		if(!empty($res)){
-			$this->session->set_userdata('user', $res);
-			return true;
+			$usersess = array(
+				'id'	 	=> $res['usr_id'],
+				'username'	=> $res['usr_username'],
+				'firstname'	=> $res['usr_first_name'],
+				'lastname'	=> $res['usr_last_name'],
+				'email'		=> $res['usr_email'],
+			);
+
+			$this->session->set_userdata('user', $usersess);
+			return $usersess;
 		}else{
 			return false;
 		}

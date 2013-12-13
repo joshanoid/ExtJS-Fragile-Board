@@ -43,12 +43,7 @@ Ext.define("Fragile.view.LoginForm", {
  		        text: 'Log in',
  		        formBind: true,
  		        disabled: true,
- 		        handler: function() {
-                    var dialog  = this.up('loginform'),
-                        form    = this.up('form');
-
-                    dialog.fireEvent('login', dialog, form.getForm());
-                }
+                id: 'fragile-login'
  		   }
         ]
     }]
