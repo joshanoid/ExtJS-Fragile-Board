@@ -23,11 +23,14 @@ Ext.define('Fragile.controller.Project', {
     		'#fragile-add-new-project': {
                 click: this.addProject
             },
+            '#fragile-edit-project': {
+                click: this.editProject
+            },
             '#fragile-delete-project': {
     			click: this.deleteProject
     		},
             'fragileprojects': {
-    			itemdblclick: this.editProject
+    			itemdblclick: this.loadBoard
     		},
     		'projectedit button[action=save]': {
                 click: this.saveProject
@@ -49,18 +52,30 @@ Ext.define('Fragile.controller.Project', {
             }, this);
         }else{
             Ext.MessageBox.show({
-               title: 'Error',
-               msg: 'Please select a project!',
-               buttons: Ext.MessageBox.OK,
-               animateTarget: 'fragile-delete-project',
-               icon: Ext.MessageBox.ERROR
-           });
+                title: 'Error',
+                msg: 'Please select a project!',
+                buttons: Ext.MessageBox.OK,
+                animateTarget: 'fragile-delete-project',
+                icon: Ext.MessageBox.ERROR
+            });
         }
     },
 
     editProject: function(grid, record){
-    	var view = Ext.widget('projectedit', {title: 'Edit Project'});
-        view.down('form').loadRecord(record);
+        var row = this.getProjectsgrid().getSelectionModel().getSelection();
+        if(row.length){
+            var view = Ext.widget('projectedit', {title: 'Edit Project'});
+            view.down('form').loadRecord(row[0]);
+        }else{
+            Ext.MessageBox.show({
+                title: 'Error',
+                msg: 'Please select a project!',
+                buttons: Ext.MessageBox.OK,
+                animateTarget: 'fragile-edit-project',
+                icon: Ext.MessageBox.ERROR
+            });
+        }
+    	
     },
 
     saveProject: function(button){
@@ -79,6 +94,11 @@ Ext.define('Fragile.controller.Project', {
         }
 
         win.close();
+    },
+
+    loadBoard: function(grid, record){
+        //This triggers the hashchange event what pathjs can capture, and run board controller
+        Ext.History.add("#!/projects/" + record.get('id')); 
     },
 
     index: function(){

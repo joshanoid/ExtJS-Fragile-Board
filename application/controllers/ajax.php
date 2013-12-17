@@ -64,4 +64,38 @@ class ajax extends CI_Controller {
 
 		echo json_encode($response);
 	}
+
+	public function lane($operation){
+		$get = $this->input->get();
+		$post = $this->input->post();
+		$response = array('success' => true);
+		$this->load->model('lane_model');
+
+		switch ($operation) {
+			case 'create': {
+				// $data = json_decode($post['data']);
+				// $response['projects'] = $this->project_model->add_project($data);
+				break;
+			}
+			case 'update': {
+				// $data = json_decode($post['data']);
+				// $response['projects'] = $this->project_model->update_project($data);
+				break;
+			}
+			case 'destroy': {
+				// $data = json_decode($post['data']);
+				// $this->project_model->delete_project($data->id);
+				break;
+			}
+			case 'read': {}
+			default:{
+				$res = $this->lane_model->get_lanes($get['projectId']);
+				$response['lanes'] = $res;
+				break;
+			}
+		}
+
+
+		echo json_encode($response);
+	}
 }
