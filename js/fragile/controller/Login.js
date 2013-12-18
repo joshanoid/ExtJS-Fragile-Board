@@ -28,8 +28,9 @@ Ext.define('Fragile.controller.Login', {
             loginForm.submit({
                 success: function(form, action) {
                     loginDialog.destroy();
-                    Fragile.app.loggedIn = action.result.user;
-                    me.getController('Project').index();
+                    Fragile.settings.loggedIn = action.result.user;
+                    if(Fragile.settings.originalRoute !== "#!/login")
+                        window.location.hash = Fragile.settings.originalRoute;
                 },
                 failure: function(form, action) {
                     Ext.Msg.alert('Failed', action.result.msg);
@@ -42,11 +43,9 @@ Ext.define('Fragile.controller.Login', {
         Ext.Ajax.request({
             url : 'ajax/logout',
             success : function(response, opts) {
-                Fragile.app.loggedIn = false;
-                var contentPanel = this.getContentPanel();
-                contentPanel.removeAll(true);
-                Ext.widget("loginform");
+                Fragile.settings.loggedIn = false;
                 button.destroy();
+                window.location.hash = "#!/login";
             },
             failure : function(response, opts) {
                 Ext.Msg.alert('Logout Failed (' + response.status + ')');

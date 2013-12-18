@@ -6,6 +6,7 @@ Ext.define('Fragile.view.Viewport', {
         'Fragile.view.ContentPanel',
         'Fragile.view.FragileHeader',
         'Fragile.view.FragileFooter',
+        'Fragile.view.Breadcrumb',
         'Fragile.view.LoginForm'
     ],
     initComponent: function() {
@@ -27,10 +28,13 @@ Ext.define('Fragile.view.Viewport', {
             items: [
                 {
                     region : "center",
+                    xtype : "breadcrumb"
+                },
+                {
+                    region : "center",
                     xtype : "contentPanel"
                 }
-            ]
-    
+            ]    
         }
                 
         me.callParent();

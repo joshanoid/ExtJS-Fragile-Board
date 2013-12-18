@@ -1,6 +1,6 @@
 Ext.define('Fragile.controller.Project', {
     extend: 'Ext.app.Controller',
-    views: ['Projects', 'project.Edit'],
+    views: ['Projects', 'project.Edit', 'Breadcrumb'],
     models : [ "Project" ],
 	stores : [ "ProjectStore" ],
     refs: [
@@ -15,6 +15,10 @@ Ext.define('Fragile.controller.Project', {
         {
             ref: 'fheader',
             selector: 'fragileheader'
+        },
+        {
+            ref: 'bc',
+            selector: 'breadcrumb'
         }
     ],
 
@@ -103,12 +107,19 @@ Ext.define('Fragile.controller.Project', {
 
     index: function(){
         var contentPanel = this.getContentPanel();
-        contentPanel.removeAll(true);
+        contentPanel.removeAll(false);
         contentPanel.add( new Fragile.view.Projects );
         
-        if(Fragile.app.loggedIn){
+        this.getBc().fireEvent("build", [
+            {
+                'url': "#!/projects",
+                'name': "Projects List"
+            }
+        ]);
+
+        if(Fragile.settings.loggedIn){
             this.getFheader().add(Ext.create("Ext.Button", {
-                text: 'Hi <strong>'+Fragile.app.loggedIn.username+'</strong>, you can logout here!',
+                text: 'Hi <strong>'+Fragile.settings.loggedIn.username+'</strong>, you can logout here!',
                 renderTo: this.dom,
                 id: 'fragile-logout',
                 style: {

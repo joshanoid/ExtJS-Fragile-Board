@@ -46,5 +46,14 @@ Ext.define("Fragile.view.LoginForm", {
                 id: 'fragile-login'
  		   }
         ]
-    }]
+    }],
+    listeners: {
+        beforerender: {
+            fn: function(){ 
+                Ext.getCmp("content-panel").removeAll(true); 
+            }
+        }
+    }
 });
+
+

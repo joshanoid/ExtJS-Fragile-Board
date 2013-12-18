@@ -3,8 +3,6 @@ Ext.Loader.setConfig({
     enabled: true
 });
 
-Ext.setGlyphFontFamily('Pictos');
-
 Ext.application({
     requires: ['Ext.container.Viewport'],
     name: 'Fragile',
@@ -14,27 +12,38 @@ Ext.application({
     controllers: [
         "Login", "Project", "Board"      
     ],
-    views: [
-        
-    ],
     launch: function(){
         var me = this;
 
-        if(Fragile.app.loggedIn){
-            Ext.Loader.injectScriptElement('https://raw.github.com/mtrpcic/pathjs/master/path.min.js', function() {
-                Path.map("#!/projects").to(function() {
-                    me.getController('Project').index();
-                });
-                Path.map("#!/projects/:id").to(function() {
-                    me.getController('Board').index(this.params["id"]);
-                });
-     
-                Path.root('#!/projects');
-                Path.listen();
-            }, null, this);
+        Ext.Loader.injectScriptElement('js/path.min.js', function() {
+            if(!Fragile.settings.loggedIn){
+                window.location.hash = "#!/login";
+            }
+
+            Path.map("#!/login").to(function(){
+                me.showLogin();
+            });
+            Path.map("#!/projects").to(function() {
+                me.getController('Project').index();
+            });
+            Path.map("#!/projects/:id").to(function() {
+                me.getController('Board').index(this.params["id"]);
+            });
+
+            Path.root('#!/projects');
+            Path.rescue( this.rescuePath );
+            Path.listen();
+        }, null, this);
+    },
+    showLogin: function(){
+        if(Fragile.settings.loggedIn){
+            window.location.hash = "#!/projects";
         }else{
-            Ext.widget("loginform");
+            Ext.widget("loginform");    
         }
+    },
+    rescuePath: function(){
+        window.location.hash = "#!/" + (!Fragile.settings.loggedIn ? "login" : "projects"); 
     },
     init: function(){
         Ext.setGlyphFontFamily('Pictos'); 

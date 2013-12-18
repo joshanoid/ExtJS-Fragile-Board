@@ -13,7 +13,8 @@ Ext.define('Fragile.store.ProjectStore', {
         },
 		reader : {
 			type : 'json',
-			root : 'projects'
+			root : 'projects',
+			idProperty: 'id'
 		},
 		writer: {
             type: 'json',

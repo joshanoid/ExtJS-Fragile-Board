@@ -20,6 +20,17 @@ class project_model extends CI_Model {
 
 		$this->db->insert('projects', $ins);
 		$data->id = $this->db->insert_id();
+
+		//Need to insert default lanes
+		$default_lanes = array(
+		    array( 'l_project_id' => $data->id, 'l_name' => 'Requested' ),
+		    array( 'l_project_id' => $data->id, 'l_name' => 'In Progress' ),
+		    array( 'l_project_id' => $data->id, 'l_name' => 'Test' ),
+		    array( 'l_project_id' => $data->id, 'l_name' => 'Done' )
+		);
+
+		$this->db->insert_batch('projects', $default_lanes); 
+
 		return $data;
 	}
 
