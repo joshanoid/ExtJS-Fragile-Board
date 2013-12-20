@@ -7,61 +7,65 @@ Ext.define('Fragile.view.lane.Lanes', {
         align: 'stretch'
     },
     config: {
-        lanes: false,
-        items: [
-            {
-                html:'panel 122222222', 
-                title: 'asdgww', 
-                flex: 1, 
-                layout: 'hbox', 
-                items: [
-                    {
-                        html: 'subpanel1',
-                        title: 'subpanel1', 
-                        flex: 1
-                    },{
-                        html: 'subpanel2',
-                        title: 'subpanel2', 
-                        flex: 1
-                    }
-                ]
-            },
-            {html:'panel 2', width:150},
-            {html:'panel 3', flex:2}
-        ]
+        lanes: false
     },
     initComponent: function(){
-        this.items = this.buildLanes(this.getLanes());    
+        var laneCfg = this.buildLanes(this.getLanes());
+        console.log(laneCfg);
+
+        this.items = laneCfg;    
         this.callParent();
     },
 
-    buildLanes: function(lanes, id){
-        if(typeof id === 'undefined') id = false;
+    buildLanes: function(lanes, parent){
+        if(typeof parent === 'undefined') parent = null;
 
         var laneCpy  = lanes.slice(0),
-            laneCfg  = [],
-            levelCfg = [],
-            subItems = {};
+            laneCfg  = [];
 
         for(var i in lanes){
-            if(!lanes[i].get("parent_id") || lanes[i].get("parent_id") === id){
-                laneCfg.push({
-                    html: '', 
-                    title: lanes[i].get("name"), 
-                    flex: 1 
-                });
-                levelCfg.push(lanes[i].get("id"));
+            var actLane = lanes[i];
+
+            if(actLane.get("parent_id") === parent){
                 laneCpy.splice(i, 1);
-            }else{
-                if(!subItems[lanes[i].get("parent_id")]) subItems[lanes[i].get("parent_id")] = [];
-                subItems[lanes[i].get("parent_id")].push(lanes[i]);
-            }
-        }
-        
-        if(Object.keys(subItems).length){
-            for(var o in subItems){
-                laneCfg[ levelCfg.indexOf(o) ].layout = 'hbox';
-                laneCfg[ levelCfg.indexOf(o) ].items = this.buildLanes(subItems[o], o);
+
+                var cfg = {
+                        html: '',
+                        itemId: actLane.get("id"), 
+                        title: actLane.get("name"), 
+                        flex: 1
+                    },
+                    childs = this.buildLanes(laneCpy, actLane.get("id"));
+
+                if(!childs.length){
+                    //Apply cards to this lane, it hasn't got child lane
+                    Ext.apply(cfg, {
+                        layout: 'vbox',
+                        items: [],
+                        defaults: {width: '40%', margin: 5}
+                    });
+
+                    actLane.getCards().each(function(card){
+                        cfg.items.push({
+                            xtype: 'panel',
+                            title: card.get("title"),
+                            color: card.get("color"),
+                            listeners: {
+                                afterrender: function(panel){
+                                    //@todo this is a bit ugly approach, to set title color like this... Investigate later
+                                    panel.header.getEl().dom.style.background = panel.color + " none";
+                                }
+                            }
+                        });
+                    });
+                }else{
+                    Ext.apply(cfg, {
+                        layout: 'hbox',
+                        items: childs
+                    });
+                }
+
+                laneCfg.push( cfg );
             }
         }
 

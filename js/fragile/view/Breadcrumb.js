@@ -20,8 +20,8 @@ Ext.define('Fragile.view.Breadcrumb', {
             	
             	//Then add new parts
             	for(var i in parts){
-            		this.add("-->");
-            		this.add('<a href="'+parts[i].url+'">'+parts[i].name+'</a>');
+            		this.add(">>");
+            		this.add('<a href="' + parts[i].url + '">' + parts[i].name + '</a>');
             	}
             }
         }

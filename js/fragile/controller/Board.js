@@ -1,7 +1,7 @@
 Ext.define('Fragile.controller.Board', {
     extend: 'Ext.app.Controller',
     views: ['lane.Lanes', 'Breadcrumb'],
-    models : [ "Lane" ],
+    models : [ "Lane", "Card" ],
 	stores : [ "ProjectStore", "LaneStore" ],
     refs: [
         {
@@ -13,7 +13,6 @@ Ext.define('Fragile.controller.Board', {
             selector: 'breadcrumb'
         }
     ],
-    projectsLoaded: false,
     index: function(id){
         var me           = this,
             store        = this.getStore("LaneStore"),
@@ -34,7 +33,6 @@ Ext.define('Fragile.controller.Board', {
 
         pStore.on("load", function(store, records, successful, eOpts ){
             me.generateBreadcrumb(id);
-            me.projectsLoaded = true;
         });
 
         if(!pStore.isLoading()) me.generateBreadcrumb(id);
