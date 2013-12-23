@@ -33,3 +33,67 @@
 	font-size: 2.5em;
 	text-align: center;
 }
+
+/* Card component - begin */
+
+.x-card-panel{
+	background-color: #FFF;
+	margin: 5px;
+}
+
+.x-card-panel .x-card-toolbar{
+	height: 20px;
+	overflow: hidden;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	line-height: 18px;
+	font-size: 10px;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #CCC;
+}
+
+.x-card-panel .x-card-toolbar .x-card-id{
+	float: left;
+	padding-left: 5px;
+}
+
+.x-card-panel .x-card-toolbar .x-card-author{
+	float: right;
+	padding-right: 5px;
+}
+
+.x-card-panel .x-card-toolbar .x-card-settings{
+	background: transparent url('../img/gear_wheel.png') no-repeat center center;
+	background-size: 12px 12px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	float: right;
+	border-left: 1px solid rgba(120,120,120,.3);
+}
+
+.x-card-panel .x-card-content-container{
+	min-height: 30px;
+	max-height: 60px;
+	overflow: hidden;
+	padding: 2px;
+	font-size: 10px;
+	border: 1px solid #CCC;
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.x-card-panel .x-card-content-container .x-card-content{
+	max-width: 145px;
+}
+
+/* Card component - end */
