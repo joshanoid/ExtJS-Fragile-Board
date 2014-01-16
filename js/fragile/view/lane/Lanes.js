@@ -1,17 +1,20 @@
 Ext.define('Fragile.view.lane.Lanes', {
     extend: 'Ext.Panel',
-    requires: ['Fragile.store.LaneStore', 'Fragile.view.card.Card'],
+    requires: ['Fragile.store.LaneStore', 'Fragile.store.CardStore', 'Fragile.view.card.Card'],
     layout: {
         type: 'hbox',
-        pack: 'start',
+        pack: 'center',
         align: 'stretch'
+    },
+    defaults: {
+        flex: 1
     },
     config: {
         lanes: false
     },
 
     initComponent: function(){
-        this.items = this.buildLanes(this.getLanes());    
+        this.items = this.buildLanes(this.getLanes());
         this.callParent();
     },
 
@@ -39,8 +42,50 @@ Ext.define('Fragile.view.lane.Lanes', {
                 if(!childs.length){
                     //Apply cards to this lane, it hasn't got child lane
                     Ext.apply(cfg, {
-                        layout: 'vbox',
-                        items: []
+                        layout: 'column',
+                        autoScroll: false,
+                        cls: 'x-panel-lane',
+                        items: [],
+                        listeners: {
+                            afterrender: function(cmp){
+                                Ext.create('Ext.dd.DropTarget', cmp.getEl(), {
+                                    // dropNotAllowed: '',
+                                    notifyDrop: function(source, e, data) {
+                                        //don't drop to the same lane
+                                        if(source.el.up(".x-panel-lane").dom.id !== this.el.id){
+                                            cmp.add( Ext.getCmp(source.id) );
+                                            
+                                            var ls = Ext.getStore("LaneStore");
+                                            ls.load(function(){
+                                                var actLane = ls.findRecord("laneId", Ext.getCmp(source.id).ownerCt.itemId);
+                                            });
+
+                                            // var cardStore = Ext.getStore('CardStore');
+                                            // var card = Ext.getCmp(source.id);
+                                            // cardStore.load(function(){
+                                            //     var cardModel = cardStore.findRecord('cardId', card.cardId);
+                                            //     cardModel.set('laneId', src.laneId);
+                                            //     src.add(card);
+                                            //     cardStore.sync();
+                                            // });
+
+
+
+                                            //update store
+                                            //Ext.getCmp(source.id).ownerCt.itemId = this is the card's parent lane id
+                                            //cmp.itemId = this is the drop lane id
+                                            
+
+
+                                        }else return false;
+                                    },
+                                    notifyOver: function(dd, e, data){
+                                        if(dd.el.up(".x-panel-lane").dom.id !== this.el.id)
+                                            return Ext.dd.DropTarget.prototype.dropAllowed;
+                                    }
+                                }).addToGroup('cards');
+                            }
+                        }
                     });
 
                     actLane.getCards().each(function(card){
@@ -48,37 +93,15 @@ Ext.define('Fragile.view.lane.Lanes', {
                         {
                             xtype: 'card',
                             data: me.cardData(card)
-                            // xtype: 'panel',
-                            // title: card.get("title"),
-                            // color: card.get("color"),
-                            // html: 'asdwe',
-                            // tbar: [{
-                            //      text: 'Send',
-                            //      iconCls: 'icon-send'
-                            // },'-',{
-                            //      text: 'Save',
-                            //      iconCls: 'icon-save'
-                            // },{
-                            //      text: 'Check Spelling',
-                            //      iconCls: 'icon-spell'
-                            // },'-',{
-                            //      text: 'Print',
-                            //      iconCls: 'icon-print'
-                            // },'->',{
-                            //      text: 'Attach a File',
-                            //      iconCls: 'icon-attach'
-                            // }],
-                            // listeners: {
-                            //     afterrender: function(panel){
-                            //         //@todo this is a bit ugly approach, to set title color like this... Investigate later
-                            //         panel.header.getEl().dom.style.background = panel.color + " none";
-                            //     }
-                            // }
                         });
                     });
                 }else{
                     Ext.apply(cfg, {
-                        layout: 'hbox',
+                        layout: {
+                            type: 'hbox',
+                            align: 'stretch'
+                        },
+                        border: false,
                         items: childs
                     });
                 }

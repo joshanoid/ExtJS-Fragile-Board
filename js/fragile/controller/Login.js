@@ -1,24 +1,31 @@
 Ext.define('Fragile.controller.Login', {
     extend: 'Ext.app.Controller',
     requires: ['Ext.util.History'],
-    views: ['LoginForm'],
+    views: ['LoginForm', 'FragileHeader', 'Breadcrumb', 'FragileLogoutButton'],
     refs: [
         {
-            ref: 'contentPanel',
-            selector: 'contentPanel'
+            ref: 'fragileheader',
+            selector: 'fragileheader'
+        },
+        {
+            ref: 'bc',
+            selector: 'breadcrumb'
         }
     ],
     init: function(application) {
         this.control({
-            "#fragile-login": {
+            '#fragile-login': {
                 click: this.login
             },
-            "#fragile-logout": {
+            'fragilelogout': {
                 click: this.logout
             }
         });
     },
-
+    index: function(){
+        Ext.widget("loginform");
+        this.getBc().clear(); 
+    },
     login: function(button) {
         var me          = this,
             loginForm   = button.up('form'),
@@ -31,9 +38,11 @@ Ext.define('Fragile.controller.Login', {
                     Fragile.settings.loggedIn = action.result.user;
                     if(Fragile.settings.originalRoute !== "#!/login")
                         window.location.hash = Fragile.settings.originalRoute;
+                    else
+                        window.location.hash = "#!/projects";
                 },
                 failure: function(form, action) {
-                    Ext.Msg.alert('Failed', action.result.msg);
+                    Ext.Msg.alert('Login Failed', action.result.msg);
                 }
             });
         }
@@ -48,10 +57,21 @@ Ext.define('Fragile.controller.Login', {
                 window.location.hash = "#!/login";
             },
             failure : function(response, opts) {
-                Ext.Msg.alert('Logout Failed (' + response.status + ')');
+                Ext.Msg.alert('Logout Failed', response.status);
             }
         });
+    },
 
+    addLogout: function(){
+        var me = this,
+            fh = me.getFragileheader(),
+            lo = fh.query();
+
+        if( !lo.length ){
+            fh.add({
+                xtype: 'fragilelogout'
+            });
+        }
     }
 });
 

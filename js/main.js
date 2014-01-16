@@ -4,7 +4,7 @@ Ext.Loader.setConfig({
 });
 
 Ext.application({
-    requires: ['Ext.container.Viewport'],
+    requires: ['Ext.container.Viewport', 'Ext.util.Point'],
     name: 'Fragile',
     appProperty: 'Fragile',
     autoCreateViewport: true,
@@ -16,18 +16,15 @@ Ext.application({
         var me = this;
 
         Ext.Loader.injectScriptElement('js/path.min.js', function() {
-            if(!Fragile.settings.loggedIn){
-                window.location.hash = "#!/login";
-            }
-
             Path.map("#!/login").to(function(){
-                me.showLogin();
+                if( !me.checkLogin() ) me.getController('Login').index();
+                else window.location.hash = "#!/projects";
             });
             Path.map("#!/projects").to(function() {
-                me.getController('Project').index();
+                if( me.checkLogin() ) me.getController('Project').index();
             });
             Path.map("#!/projects/:id").to(function() {
-                me.getController('Board').index(this.params["id"]);
+                if( me.checkLogin() ) me.getController('Board').index(this.params["id"]);
             });
 
             Path.root('#!/projects');
@@ -35,12 +32,14 @@ Ext.application({
             Path.listen();
         }, null, this);
     },
-    showLogin: function(){
+    checkLogin: function(){
         if(Fragile.settings.loggedIn){
-            window.location.hash = "#!/projects";
+            this.getController('Login').addLogout();
         }else{
-            Ext.widget("loginform");    
+            window.location.hash = "#!/login"; 
         }
+
+        return !!Fragile.settings.loggedIn;
     },
     rescuePath: function(){
         window.location.hash = "#!/" + (!Fragile.settings.loggedIn ? "login" : "projects"); 

@@ -38,7 +38,7 @@ Ext.define('Fragile.controller.Board', {
         if(!pStore.isLoading()) me.generateBreadcrumb(id);
     },
     generateBreadcrumb: function(pid){
-        this.getBc().fireEvent("build", [
+        this.getBc().build([
             {
                 'url': "#!/projects",
                 'name': "Projects List"

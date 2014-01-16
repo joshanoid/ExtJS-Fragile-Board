@@ -41,6 +41,11 @@
 	margin: 5px;
 }
 
+.x-dd-drag-ghost{
+	border: 0px none;
+	background-color: transparent;
+}
+
 .x-card-panel .x-card-toolbar{
 	height: 20px;
 	overflow: hidden;

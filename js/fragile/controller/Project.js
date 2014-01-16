@@ -110,23 +110,23 @@ Ext.define('Fragile.controller.Project', {
         contentPanel.removeAll(false);
         contentPanel.add( new Fragile.view.Projects );
         
-        this.getBc().fireEvent("build", [
+        this.getBc().build([
             {
                 'url': "#!/projects",
                 'name': "Projects List"
             }
         ]);
 
-        if(Fragile.settings.loggedIn){
-            this.getFheader().add(Ext.create("Ext.Button", {
-                text: 'Hi <strong>'+Fragile.settings.loggedIn.username+'</strong>, you can logout here!',
-                renderTo: this.dom,
-                id: 'fragile-logout',
-                style: {
-                    float: 'right',
-                    'margin-top': '10px'
-                }
-            }));
-        }
+        // if(Fragile.settings.loggedIn){
+        //     this.getFheader().add(Ext.create("Ext.Button", {
+        //         text: 'Hi <strong>'+Fragile.settings.loggedIn.username+'</strong>, you can logout here!',
+        //         renderTo: this.dom,
+        //         id: 'fragile-logout',
+        //         style: {
+        //             float: 'right',
+        //             'margin-top': '10px'
+        //         }
+        //     }));
+        // }
     }
 });

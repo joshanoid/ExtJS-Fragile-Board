@@ -5,5 +5,6 @@ Ext.define('Fragile.view.ContentPanel', {
     style: {
     	padding: '10px'
     },
+    layout: 'fit',
     border: false
 });

@@ -3,5 +3,10 @@ Ext.define('Fragile.model.Card', {
     requires:[
     	'Ext.data.proxy.Ajax'
     ],
-    fields: ['id', 'user_name', 'title', 'color']
+    fields: ['id', 'user_name', 'title', 'color'],
+    belongsTo: {
+        model: 'Fragile.model.Lane',
+        getterName: 'getLane',
+        setterName: 'setLane'
+    } 
 });
