@@ -26,7 +26,8 @@ Ext.define('Fragile.controller.Board', {
             callback: function(records, operation, success) {
                 contentPanel.removeAll(false);
                 contentPanel.add( Ext.create("Fragile.view.lane.Lanes", {
-                    lanes: records
+                    lanes: records,
+                    laneStore: store
                 }));
             }
         });   

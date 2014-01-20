@@ -98,4 +98,19 @@ class ajax extends CI_Controller {
 
 		echo json_encode($response);
 	}
+
+	public function card($operation){
+		$post = $this->input->post();
+		$response = array('success' => true);
+		$this->load->model('card_model');
+
+		switch ($operation) {
+			case 'switchlane': {
+				$this->card_model->switch_lane($post['cid'], $post['lid']);
+				break;
+			}
+		}
+
+		echo json_encode($response);
+	}
 }

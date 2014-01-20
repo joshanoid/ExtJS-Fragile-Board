@@ -1,6 +1,6 @@
 Ext.define('Fragile.view.lane.Lanes', {
     extend: 'Ext.Panel',
-    requires: ['Fragile.store.LaneStore', 'Fragile.store.CardStore', 'Fragile.view.card.Card'],
+    requires: ['Fragile.store.LaneStore', 'Fragile.view.card.Card'],
     layout: {
         type: 'hbox',
         pack: 'center',
@@ -53,30 +53,28 @@ Ext.define('Fragile.view.lane.Lanes', {
                                     notifyDrop: function(source, e, data) {
                                         //don't drop to the same lane
                                         if(source.el.up(".x-panel-lane").dom.id !== this.el.id){
-                                            cmp.add( Ext.getCmp(source.id) );
-                                            
-                                            var ls = Ext.getStore("LaneStore");
-                                            ls.load(function(){
-                                                var actLane = ls.findRecord("laneId", Ext.getCmp(source.id).ownerCt.itemId);
+                                            var actCard = Ext.getCmp(source.id),
+                                                ls      = Ext.getStore("LaneStore"),
+                                                actLane = ls.findRecord( "id", actCard.ownerCt.itemId ),
+                                                newLane = ls.findRecord( "id", cmp.itemId ),
+                                                actCstr = actLane.cards(), //Old lane card store
+                                                newCstr = newLane.cards(), //New lane card store
+                                                cardMod = actCstr.findRecord( "id", actCard.cardId );
+
+                                            Ext.Ajax.request({
+                                                url: 'ajax/card/switchlane',
+                                                params: {
+                                                    cid: actCard.cardId,
+                                                    lid: cmp.itemId
+                                                },
+                                                success: function(response){
+                                                    actCstr.remove(cardMod);
+                                                    newCstr.add(cardMod);
+
+                                                    cardMod.setLane(cmp.itemId);    
+                                                    cmp.add(actCard);
+                                                }
                                             });
-
-                                            // var cardStore = Ext.getStore('CardStore');
-                                            // var card = Ext.getCmp(source.id);
-                                            // cardStore.load(function(){
-                                            //     var cardModel = cardStore.findRecord('cardId', card.cardId);
-                                            //     cardModel.set('laneId', src.laneId);
-                                            //     src.add(card);
-                                            //     cardStore.sync();
-                                            // });
-
-
-
-                                            //update store
-                                            //Ext.getCmp(source.id).ownerCt.itemId = this is the card's parent lane id
-                                            //cmp.itemId = this is the drop lane id
-                                            
-
-
                                         }else return false;
                                     },
                                     notifyOver: function(dd, e, data){
@@ -88,7 +86,7 @@ Ext.define('Fragile.view.lane.Lanes', {
                         }
                     });
 
-                    actLane.getCards().each(function(card){
+                    actLane.cards().each(function(card){
                         cfg.items.push(
                         {
                             xtype: 'card',
