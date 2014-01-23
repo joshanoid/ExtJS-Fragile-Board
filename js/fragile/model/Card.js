@@ -9,8 +9,6 @@ Ext.define('Fragile.model.Card', {
         { name: 'color',    type: 'string' } 
     ],
     
-    // belongsTo: 'Fragile.model.Lane'
-
     belongsTo: {
         name: 'lane',
         instanceName: 'lane',
@@ -20,19 +18,4 @@ Ext.define('Fragile.model.Card', {
         associationKey: 'lanes',
         foreignKey: 'lane_id'
     }
-    // ,
-
-    // proxy : {
-    //     type : 'ajax',
-    //     api: {
-    //         read: 'ajax/card/read',
-    //         create: 'ajax/card/create',
-    //         update: 'ajax/card/update',
-    //         destroy: 'ajax/card/destroy'
-    //     },
-    //     reader : {
-    //         type : 'json',
-    //         root : 'cards'
-    //     }
-    // }
 });

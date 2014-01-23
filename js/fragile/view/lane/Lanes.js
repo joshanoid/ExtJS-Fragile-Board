@@ -1,6 +1,6 @@
 Ext.define('Fragile.view.lane.Lanes', {
     extend: 'Ext.Panel',
-    requires: ['Fragile.store.LaneStore', 'Fragile.view.card.Card'],
+    requires: ['Fragile.store.LaneStore', 'Fragile.view.card.Card', 'Ext.layout.container.Column'],
     layout: {
         type: 'hbox',
         pack: 'center',

@@ -100,6 +100,7 @@ class ajax extends CI_Controller {
 	}
 
 	public function card($operation){
+		$get = $this->input->get();
 		$post = $this->input->post();
 		$response = array('success' => true);
 		$this->load->model('card_model');
@@ -109,7 +110,33 @@ class ajax extends CI_Controller {
 				$this->card_model->switch_lane($post['cid'], $post['lid']);
 				break;
 			}
+			case 'read_setting': {
+				$response['setting'] = $this->card_model->get_settings($get['id']);
+				break;
+			}
 		}
+
+		echo json_encode($response);
+	}
+
+	public function cardtype($operation){
+		$get = $this->input->get();
+		$post = $this->input->post();
+		$response = array('success' => true);
+		$this->load->model('card_model');
+
+		switch ($operation) {
+			case 'create': {}
+			case 'update': {}
+			case 'destroy': {}
+			case 'read': {}
+			default:{
+				$res = $this->card_model->get_types();
+				$response['types'] = $res;
+				break;
+			}
+		}
+
 
 		echo json_encode($response);
 	}

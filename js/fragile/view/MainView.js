@@ -8,7 +8,8 @@ Ext.define('Fragile.view.MainView', {
         'Fragile.view.FragileHeader',
         'Fragile.view.FragileFooter',
         'Fragile.view.Breadcrumb',
-        'Fragile.view.LoginForm'
+        'Fragile.view.LoginForm',
+        'Ext.toolbar.TextItem'
     ],
 
     dockedItems: [
