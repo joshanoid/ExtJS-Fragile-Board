@@ -32,6 +32,18 @@ class card_model extends CI_Model {
 		return $qry->result_array();
 	}
 	
+	public function get_statuses(){
+		$this->db->select('cs_id as id, cs_name as name');
+		$qry = $this->db->get('card_status');
+		return $qry->result_array();
+	}
+
+	public function get_priorities(){
+		$this->db->select('cp_id as id, cp_name as name');
+		$qry = $this->db->get('card_priority');
+		return $qry->result_array();
+	}
+
 	public function get_settings($cid){
 		$fields = array('id', 'title', 'description', 'type_id', 'status_id', 'priority_id', 'color');
 		$select = array();

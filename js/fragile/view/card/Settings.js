@@ -2,7 +2,7 @@ Ext.define('Fragile.view.card.Settings', {
     extend: 'Ext.window.Window',
     alias : 'widget.cardsettings',
 
-    requires: ['Ext.form.Panel', 'Ext.form.field.HtmlEditor', 'Ext.form.field.ComboBox'],
+    requires: ['Ext.form.Panel', 'Ext.form.field.HtmlEditor', 'Ext.form.field.ComboBox', 'Fragile.lib.ColorPicker'],
     title : 'Edit Card',
     layout: 'fit',
     modal: true,
@@ -43,12 +43,34 @@ Ext.define('Fragile.view.card.Settings', {
                                     store: 'card.TypeStore',
                                     typeAhead: true,
                                     autoload: true,
-                                    emptyText: 'Select the card type',
-                                    listeners: {
-                                        render: function(){
-                                            console.log("blah2");
-                                        }
-                                    }
+                                    emptyText: 'Select the card type'
+                                },
+                                {
+                                    xtype: 'combobox',
+                                    name: 'status_id',
+                                    fieldLabel: 'Status',
+                                    valueField: 'id',
+                                    displayField: 'name',
+                                    store: 'card.StatusStore',
+                                    typeAhead: true,
+                                    autoload: true,
+                                    emptyText: 'Select the card status'
+                                },
+                                {
+                                    xtype: 'combobox',
+                                    name: 'priority_id',
+                                    fieldLabel: 'Priority',
+                                    valueField: 'id',
+                                    displayField: 'name',
+                                    store: 'card.PriorityStore',
+                                    typeAhead: true,
+                                    autoload: true,
+                                    emptyText: 'Select the card priority'
+                                },
+                                {
+                                    xtype: 'tcolorpicker',
+                                    name : 'color',
+                                    fieldLabel: 'Color'
                                 }
                             ]
                         }

@@ -137,6 +137,47 @@ class ajax extends CI_Controller {
 			}
 		}
 
+		echo json_encode($response);
+	}
+
+	public function cardstatus($operation){
+		$get = $this->input->get();
+		$post = $this->input->post();
+		$response = array('success' => true);
+		$this->load->model('card_model');
+
+		switch ($operation) {
+			case 'create': {}
+			case 'update': {}
+			case 'destroy': {}
+			case 'read': {}
+			default:{
+				$res = $this->card_model->get_statuses();
+				$response['statuses'] = $res;
+				break;
+			}
+		}
+
+		echo json_encode($response);
+	}
+
+	public function cardpriority($operation){
+		$get = $this->input->get();
+		$post = $this->input->post();
+		$response = array('success' => true);
+		$this->load->model('card_model');
+
+		switch ($operation) {
+			case 'create': {}
+			case 'update': {}
+			case 'destroy': {}
+			case 'read': {}
+			default:{
+				$res = $this->card_model->get_priorities();
+				$response['priorities'] = $res;
+				break;
+			}
+		}
 
 		echo json_encode($response);
 	}

@@ -102,3 +102,45 @@
 }
 
 /* Card component - end */
+
+/* Card settings - begin */
+
+.text-colorpicker .x-form-trigger-input-cell input{
+	background-image: none;
+}
+
+.text-colorpicker-icon{
+	width: 21px !important;
+}
+
+.text-colorpicker-icon .x-form-trigger{
+	background-image: url('../img/colorpicker.png');
+	background-size: 21px;
+	width: 21px;
+	background-position: 0px !important;
+}
+
+.text-colorpicker-box div{
+	height:195px;
+	width:195px;
+	position:relative;
+	overflow:hidden
+}
+
+.text-colorpicker-box div canvas{
+	position:absolute;
+	top:0;
+	left:0;
+	cursor:pointer
+}
+
+.text-colorpicker-box-spectrum{
+	z-index:1;
+	background-image:'sssss'
+}
+
+.text-colorpicker-box-luminance{
+	z-index:0
+}
+
+/* Card settings - end */
